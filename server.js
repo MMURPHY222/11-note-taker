@@ -52,5 +52,24 @@ app.post('/api/notes', (req, res) => {
       });
 });
 
+app.delete("/api/notes/:id", (req,res) => {
+  for(let i = 0; i < db.length; i++) {
+    if (db[i].id == req.params.id) {
+      db.splice(i, 1);
+      break;
+    }
+  };
+
+  withDelete = JSON.stringify(db);
+
+  fs.writeFileSync('./db/db.json', withDelete, (err) => {
+    if(err) {
+      throw err
+    } else {
+      console.log("DELETED");
+    }
+  });
+    return res.json(db);
+})
 
 app.listen(PORT, () => console.log(`App listening on port http://localhost:${PORT}`));
