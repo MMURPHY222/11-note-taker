@@ -3,7 +3,7 @@ const fs = require("fs");
 const path = require('path');
 const uuid = require('uuid');
 const db = require("./db/db.json");
-const noteList = [];
+
 
 
 const app = express();
@@ -23,19 +23,6 @@ app.get("/notes", (req,res) => res.sendFile(path.join(__dirname, './public/notes
 
 // TODO: read db.json and return all saved notes as json
 app.get("/api/notes", (req,res) => {
-// res.sendFile(path.join(__dirname, './db/db.json')));
-// fs.readFile(`${__dirname}/db/db.json`, (err, data) => { 
-
-//     console.log(data);
-
-//     if(err) {
-//         console.log(err);
-//     } else {
-//     console.log(data.json());
-//     return res.json(data);
-//     }
-
-//  })
     return res.json(db);
 });
 
@@ -43,8 +30,6 @@ app.get("/api/notes", (req,res) => {
 // TODO: should receive a new note to save on request body, add it to db.json and return new note to client
 // each note needs to be given a unique id when its saved
 app.post('/api/notes', (req, res) => { 
-    // const newNote = req.body;
-    // res.json(newNote);
     console.log(req.body);
 
     let newNote = {
@@ -54,23 +39,22 @@ app.post('/api/notes', (req, res) => {
     }
     console.log(newNote);
 
-    // data = JSON.stringify(newNote);
-    noteList.push(newNote);
+    db.push(newNote);
 
-    data = JSON.stringify(noteList)
+    data = JSON.stringify(db)
 
      fs.writeFile(`${__dirname}/db/db.json`, data, (err) => {
         if (err)
           console.log(err);
         else {
-        //   console.log("File written successfully\n");
-        //   console.log("The written has the following contents:");
-        //   console.log(fs.readFileSync(`${__dirname}/db/db.json`, "utf8"));
         return res.json(db);
         }
       });
 });
 
 // TODO: delete note option
+app.delete('/api/notes/:id', (req, res) => {
+  
+})
 
 app.listen(PORT, () => console.log(`App listening on port http://localhost:${PORT}`));
