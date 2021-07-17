@@ -3,7 +3,8 @@ const fs = require("fs");
 const path = require('path');
 const uuid = require('uuid');
 const db = require("./db/db.json");
-var bodyParser = require('body-parser')
+const noteList = [];
+
 
 const app = express();
 const PORT = 3005;
@@ -49,10 +50,14 @@ app.post('/api/notes', (req, res) => {
     let newNote = {
         title: req.body.title,
         text: req.body.text,
+        id: uuid.v4()
     }
     console.log(newNote);
 
-    data = JSON.stringify(newNote);
+    // data = JSON.stringify(newNote);
+    noteList.push(newNote);
+
+    data = JSON.stringify(noteList)
 
      fs.writeFile(`${__dirname}/db/db.json`, data, (err) => {
         if (err)
