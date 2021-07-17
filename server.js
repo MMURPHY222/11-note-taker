@@ -21,13 +21,13 @@ app.get("/", (req,res) => res.sendFile(path.join(__dirname, './index.html')));
 app.get("/notes", (req,res) => res.sendFile(path.join(__dirname, './public/notes.html')));
 
 
-// TODO: read db.json and return all saved notes as json
+// read db.json and return all saved notes as json
 app.get("/api/notes", (req,res) => {
     return res.json(db);
 });
 
 
-// TODO: should receive a new note to save on request body, add it to db.json and return new note to client
+// should receive a new note to save on request body, add it to db.json and return new note to client
 // each note needs to be given a unique id when its saved
 app.post('/api/notes', (req, res) => { 
     console.log(req.body);
@@ -52,9 +52,5 @@ app.post('/api/notes', (req, res) => {
       });
 });
 
-// TODO: delete note option
-app.delete('/api/notes/:id', (req, res) => {
-  
-})
 
 app.listen(PORT, () => console.log(`App listening on port http://localhost:${PORT}`));
